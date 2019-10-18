@@ -9,6 +9,10 @@ https://github.com/k8gege/K8CscanAggressor<br>
 ### 应用场景
 CS命令行下扫描目标内网,无需代理转发扫描收集信息、密码爆破等<br>
 跳板扫描外网资产(即无需代理直接通过在控机器扫描其它目标资产)<br>
+### 更多功能
+更多功能请看Wiki，本页仅列部分功能<br>
+https://github.com/k8gege/K8CScan/wiki<br>
+
 ### 0.Cobalt Strike联动
 ![](https://github.com/k8gege/K8CScan/blob/master/Images/CobaltStrike.gif)
 ### 1.SmbScan MS17-010漏洞扫描
