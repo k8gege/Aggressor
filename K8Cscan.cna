@@ -1,29 +1,30 @@
 #Cobalt Strike 3.x
 #Cscan 5.4 
 #author: k8gege
-#update: 20191025
+#update: 20191101
+#Not Support [SmbScan MysqlScan OracleScan SSHscan]
 
 alias Cscan {
 	if (-exists script_resource("Cscan.exe")) {
 	if ($2 eq "help"){
 	blog2($1, "Usage:");
-	#blog2($1, "Cscan");
 	#blog2($1, "Cscan 1");
 	blog2($1, "Cscan ip");
 	blog2($1, "Cscan ip scantype");
 	#blog2($1, "Cscan nocheck");
 	blog2($1, "Cscan nocheck ip");
 	blog2($1, "Cscan nocheck ip scantype");	
-	blog2($1, "Note");
+	blog2($1, "ScanType:(Discover/Crack/Encode/Exploit)");
 	blog2($1, "ip: [ip ip/24 ip/26 ip/8]");
 	blog2($1, "scantype: [OnlineIP OnlinePC OSscan CiscoScan]");
 	blog2($1, "scantype: [WebScan WebScan2 SameWeb UrlScan WhatCMS WebDir SubDomain HostIP DomainIP]");
-	blog2($1, "scantype: [MS17010 WeblogicPoc WeblogicExp TomcatPoc PhpStudyPoc]");
-	blog2($1, "scantype: [FtpScan WmiScan IpcScan SmbScan MysqlScan MssqlScan OracleScan SSHscan]");
+	blog2($1, "scantype: [MS17010 WeblogicPoc WeblogicExp PhpStudyPoc ActiveMQPoc]");
+	blog2($1, "scantype: [FtpScan WmiScan IpcScan MssqlScan]");
 	blog2($1, "scantype: [EnumMSSQL EnumShare]");
 	blog2($1, "scantype: [EnHex DeHex EnBase64 DeBase64]");
 	blog2($1, "Example: Cscan 192.168.1.8 OnlinePC");
 	blog2($1, "Example: Cscan 192.168.1.8/24 OnlinePC");	
+	blog2($1, "Example: Cscan 192.168.1.8/24 *.dll(c#)");		
 	return;}else
 	{bexecute_assembly!($1, script_resource("Cscan.exe"), $2.' '.$3.' '.$4.' '.$5);}
 	}else {berror($1, "Cscan.exe does not exist :(");}
