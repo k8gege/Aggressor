@@ -1,4 +1,40 @@
-# K8Cscan for Cobalt Strike
+# Ladon & K8Cscan for Cobalt Strike
+![](https://k8gege.github.io/k8img/Ladon/Dragon.jpg)
+
+[![Author](https://img.shields.io/badge/Author-k8gege-blueviolet)](https://github.com/k8gege) 
+[![Ladon](https://img.shields.io/badge/Ladon-5.5-yellowgreen)](https://github.com/k8gege/Ladon) 
+[![Bin](https://img.shields.io/badge/Ladon-Bin-ff69b4)](https://github.com/k8gege/Ladon/releases) 
+[![GitHub issues](https://img.shields.io/github/issues/k8gege/Ladon)](https://github.com/k8gege/Ladon/issues) 
+[![Github Stars](https://img.shields.io/github/stars/k8gege/Ladon)](https://github.com/k8gege/Ladon) 
+[![GitHub forks](https://img.shields.io/github/forks/k8gege/Ladon)](https://github.com/k8gege/Ladon)
+[![GitHub license](https://img.shields.io/github/license/k8gege/Ladon)](https://github.com/k8gege/Ladon)
+
+### Ladon 5.5
+<img src=https://k8gege.github.io/k8img/Ladon/Ladon.gif></img>
+### Cobalt Strike
+<img src=https://k8gege.github.io/k8img/Ladon/CS_Ladon.gif></img>
+### PowerLadon
+<img src=https://k8gege.github.io/k8img/Ladon/PowerLadon.gif></img>
+### PythonLadon
+<img src=https://k8gege.github.io/k8img/Ladon//py/PyLadon.PNG></img>
+### LinuxLadon
+<img src=https://k8gege.github.io/k8img/Ladon/lnx/Linux_OnlinePC.PNG></img>
+
+### 使用说明
+
+ID | 主题 |  URL 
+-|-|-
+1 | Ladon文档主页 | https://github.com/k8gege/Ladon/wiki<br>
+2 | 基础用法详解 | https://github.com/k8gege/Ladon/wiki/Ladon-Usage<br>
+3 | Cobalt Strike | https://github.com/k8gege/Ladon/wiki/Ladon-&-Cobalt-Strike<br>
+4 | Exp生成器使用 | https://github.com/k8gege/Ladon/wiki/LadonExp-Usage
+5 | 高度自定义插件 | https://github.com/k8gege/Ladon/wiki/Ladon-Diy-Moudle
+6 | 外部模块参考 | https://github.com/k8gege/K8CScan/wiki
+7 | PowerLadon | https://github.com/k8gege/Ladon/wiki/Ladon-&-PowerShell
+8 | PythonLadon | https://github.com/k8gege/PyLadon
+9 | LinuxLadon | https://github.com/k8gege/LinuxLadon
+10 | 漏洞演示视频 | https://github.com/k8gege/K8CScan/tree/master/Video
+
 ### 简介
 K8Cscan一款专用于大型内网渗透的高并发插件化扫描神器，包含信息收集、网络资产、漏洞扫描、密码爆破、漏洞利用，支持批量A段/B段/C段以及跨网段扫描。5.3版本内置27个功能模块,通过各种协议以及方法快速获取目标网络存活主机IP、计算机名、工作组、网络共享、网卡物理地址、操作系统版本、网站域名、Web中间件、路由器（Cisco）、数据库等网络资产信息,内置MS17-010(SMB漏洞)、Weblogic漏洞检测，内置6种密码认证爆破3种数据库(Mysql、Oracle、MSSQL)、FTP密码爆破(文件服务器)、SSH密码爆破(Linux主机)、IPC/WMI两种方式爆破Windows主机密码，Web指纹识别模块可识别62种Web应用。高度自定义插件支持.NET程序集、DLL(C#/Delphi/VC)、PowerShell等语言编写的插件以及无编程功底通过配置INI加载任意程序命令，可快速扩展扫描或利用能力。支持Cobalt Strike联动使用27个功能扫描目标内网或跳板扫描外网目标，可快速拓展内网进行横向移动。
 
