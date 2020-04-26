@@ -1,9 +1,9 @@
-#Ladon 6.2 for Cobalt Strike
+#Ladon 6.4 for Cobalt Strike
 #author:	k8gege
 #blog:		k8gege.org
 #github:	https://github.com/k8gege
 #teston:	CS 3.x & 4.0
-#update: 	20200327
+#update: 	20200426
 
 #Some functions are not compatible with CS, please use exe version
 #Brute-Force Not Support [VncScan MysqlScan OracleScan SSHscan] PassWord 
@@ -33,7 +33,7 @@ alias Ladon {
 	blog2($1, "Example: Ladon 192.168.1.8/24 *.dll(c#)");
 	blog2($1, "Example: Ladon 192.168.1.8/24 *.exe(c#)");	
 	return;}else
-	{bexecute_assembly!($1, script_resource("Ladon.exe"), $2.' '.$3.' '.$4.' '.$5);}
+	{bexecute_assembly!($1, script_resource("Ladon.exe"), $2.' '.$3.' '.$4.' '.$5.' '.$6.' '.$7.' '.$8);}
 	}else {berror($1, "Ladon.exe does not exist :(");}
 }
 
