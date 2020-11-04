@@ -363,8 +363,11 @@ Ladon sc c:\123.exe auto ServerName
 
 ### 工具下载
 
-最新版本：https://k8gege.org/Download
 历史版本: https://github.com/k8gege/Ladon/releases
 
-
+### 最新版
+最新版在小密圈：http://k8gege.org/Ladon/update.txt
+<div style="text-align: center; width: 710px; border: green solid 0px;">
+<img alt="" src="http://k8gege.org/img/k8team.jpg" style="display: inline-block;width: 250px;height: 300px;" />
+</div>
 
