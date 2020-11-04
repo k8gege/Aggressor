@@ -1,18 +1,23 @@
-#Ladon 7.3 for Cobalt Strike
+#Ladon 7.5 for Cobalt Strike
 #author:	k8gege
 #blog:		http://k8gege.org/Ladon
 #github:	https://github.com/k8gege
 #teston:	CS 3.x & 4.0
-#update: 	20200911
+#update: 	20201010
 
 #Some functions are not compatible with CS, please use exe version
-#Not Support: [NbtScan VncScan MysqlScan OracleScan SSHscan WinrmScan WinrmExec]  
-#Not Support: [SubDomain PsExec DumpLsass] 
+#Not Support: [NbtScan VncScan MysqlScan OracleScan SSHscan WinrmScan]  
+#Not Support: [SubDomain PsExec WinrmExec DumpLsass RdpHijack cve-2020-0688] 
+
+beacon_command_register(
+"Ladon", 
+"Ladon large network penetration scanner", 
+"\nUsing: Ladon help\nLadon is a multi-threaded plug-in comprehensive scanning artifact for large-scale network penetration, including port scanning, service identification, network assets, password explosion, high-risk vulnerability detection and one click getshell. It supports batch a / B / C segment scanning and cross network segment scanning, as well as URL, host and domain name list scanning. Version 7.2 has built-in 94 function modules and 18 external modules. Through a variety of protocols and methods, it can quickly obtain the IP, computer name, working group, shared resources, network card address, operating system version, website, subdomain name, middleware, open service, router, database and other information of the target network");
 
 alias Ladon {
 	if (-exists script_resource("Ladon.exe")) {
 	if ($2 eq "help"){
-	blog2($1, "Ladon 7.3");
+	blog2($1, "Ladon 7.5");
 	blog2($1, "Usage:");
 	#blog2($1, "Ladon 1");
 	blog2($1, "Ladon ip");
