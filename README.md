@@ -2,15 +2,22 @@
 ![](https://k8gege.github.io/k8img/Ladon/Dragon.jpg)
 
 [![Author](https://img.shields.io/badge/Author-k8gege-blueviolet)](https://github.com/k8gege) 
-[![Ladon](https://img.shields.io/badge/Ladon-7.0-yellowgreen)](https://github.com/k8gege/Ladon) 
+[![Ladon](https://img.shields.io/badge/Ladon-7.7-yellowgreen)](https://github.com/k8gege/Ladon) 
 [![Bin](https://img.shields.io/badge/Ladon-Bin-ff69b4)](https://github.com/k8gege/Ladon/releases) 
 [![GitHub issues](https://img.shields.io/github/issues/k8gege/Ladon)](https://github.com/k8gege/Ladon/issues) 
 [![Github Stars](https://img.shields.io/github/stars/k8gege/Ladon)](https://github.com/k8gege/Ladon) 
 [![GitHub forks](https://img.shields.io/github/forks/k8gege/Ladon)](https://github.com/k8gege/Ladon)
 [![GitHub license](https://img.shields.io/github/license/k8gege/Ladon)](https://github.com/k8gege/Ladon)
 
-### Cobalt Strike
+### Ladon For Cobalt Strike
 <img src=https://k8gege.github.io/k8img/Ladon/CS_Ladon.gif></img>
+
+### Ladon 7.7 For Cobalt Strike GUI
+![image](http://k8gege.org/k8img/Ladon/cs/Gui_Discover.PNG)
+![image](http://k8gege.org/k8img/Ladon/cs/Gui_Vulcheck.PNG)
+![image](http://k8gege.org/k8img/Ladon/cs/Gui_BruteFor.PNG)
+![image](http://k8gege.org/k8img/Ladon/cs/Gui_RemoteExec.PNG)
+![image](http://k8gege.org/k8img/Ladon/cs/Gui_Msfnc.PNG)
 
 ### 程序简介
 
