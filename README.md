@@ -12,7 +12,7 @@
 ### Ladon For Cobalt Strike
 <img src=https://k8gege.github.io/k8img/Ladon/CS_Ladon.gif></img>
 
-### Ladon 7.7 For Cobalt Strike GUI
+### Ladon 7.7 For Cobalt Strike 中文GUI
 #### 信息收集/存活主机/服务识别/端口扫描<br>
 ![image](http://k8gege.org/k8img/Ladon/cs/Gui_Discover.PNG)
 #### 高危漏洞检测
