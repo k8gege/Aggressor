@@ -1,43 +1,37 @@
-#Ladon 7.5 for Cobalt Strike
+#Ladon 6.6 for Cobalt Strike
 #author:	k8gege
 #blog:		http://k8gege.org/Ladon
 #github:	https://github.com/k8gege
 #teston:	CS 3.x & 4.0
-#update: 	20201010
+#update: 	20200606
 
 #Some functions are not compatible with CS, please use exe version
-#Not Support: [NbtScan VncScan MysqlScan OracleScan SSHscan WinrmScan]  
-#Not Support: [SubDomain PsExec WinrmExec DumpLsass RdpHijack cve-2020-0688] 
-
-beacon_command_register(
-"Ladon", 
-"Ladon large network penetration scanner", 
-"\nUsing: Ladon help\nLadon is a multi-threaded plug-in comprehensive scanning artifact for large-scale network penetration, including port scanning, service identification, network assets, password explosion, high-risk vulnerability detection and one click getshell. It supports batch a / B / C segment scanning and cross network segment scanning, as well as URL, host and domain name list scanning. Version 7.2 has built-in 94 function modules and 18 external modules. Through a variety of protocols and methods, it can quickly obtain the IP, computer name, working group, shared resources, network card address, operating system version, website, subdomain name, middleware, open service, router, database and other information of the target network");
+#Brute-Force Not Support [VncScan MysqlScan OracleScan SSHscan] PassWord 
 
 alias Ladon {
 	if (-exists script_resource("Ladon.exe")) {
 	if ($2 eq "help"){
-	blog2($1, "Ladon 7.5");
+	blog2($1, "Ladon 6.6");
 	blog2($1, "Usage:");
 	#blog2($1, "Ladon 1");
 	blog2($1, "Ladon ip");
 	blog2($1, "Ladon ip scantype");
-	#blog2($1, "Ladon noping");
-	blog2($1, "Ladon noping ip");
-	blog2($1, "Ladon noping ip scantype");	
+	#blog2($1, "Ladon nocheck");
+	blog2($1, "Ladon nocheck ip");
+	blog2($1, "Ladon nocheck ip scantype");	
 	blog2($1, "ScanType:(Discover/Brute/Encode/Exploit)");
 	blog2($1, "ip: [ip ip/24 ip/26 ip/8]");
 	blog2($1, "Discover: [OnlineIP OnlinePC OSscan CiscoScan]");
 	blog2($1, "Discover: [WebScan WebScan2 SameWeb UrlScan WhatCMS WebDir SubDomain HostIP DomainIP]");
 	blog2($1, "Vulnerable: [MS17010 SmbGhost WeblogicPoc PhpStudyPoc ActiveMQPoc TomcatPoc Struts2Poc]");
 	blog2($1, "Vulnerable: [WeblogicExp TomcatExp]");
-	blog2($1, "Brute-Force: [LdapScan FtpScan WmiScan SmbScan NbtScan LdapScan SmbHashScan WmiHashScan]");
-	blog2($1, "Discover: [EnumMssql EnumShare EnumIIS EnumProcess GetCmdLine GetInfo GetInfo2 GetPipe GetHtml AdiDnsDump]");
+	blog2($1, "Brute-Force: [LdapScan FtpScan WmiScan SmbScan LdapScan VncScan SmbHashScan WmiHashScan]");
+	blog2($1, "Discover: [EnumMssql EnumShare EnumIIS EnumProcess GetCmdLine GetInfo GetInfo2 GetHtml AdiDnsDump]");
 	blog2($1, "Encode: [EnHex DeHex EnBase64 DeBase64]");
 	blog2($1, "Sinffer: [[Sniffer FtpSniffer HttpSniffer HttpDownload FtpDownload]]");
-	blog2($1, "RemoteExec: [AtExec WmiExec SshExec JspShell WebShell]");
+	blog2($1, "RemoteExec: [PsExec AtExec WmiExec SshExec JspShell WebShell]");
 	blog2($1, "GetInfo: [CheckDoor EnableDotNet GetIP GetHtml WebSer]");
-	blog2($1, "Elevate: [MS16135 BypassUAC GetSystem Runas RunPS SweetPotato BadPotato]");
+	blog2($1, "Elevate: [BypassUAC GetSystem Runas RunPS]");
 	blog2($1, "Example: Ladon 192.168.1.8/24 OnlinePC");	
 	blog2($1, "Example: Ladon 192.168.1.8/24 *.ini");	
 	blog2($1, "Example: Ladon 192.168.1.8/24 *.ps1");
