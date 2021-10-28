@@ -12,17 +12,69 @@
 ### Ladon For Cobalt Strike
 <img src=https://k8gege.github.io/k8img/Ladon/CS_Ladon.gif></img>
 
-### Ladon 7.7 For Cobalt Strike 中文GUI
-#### 信息收集/存活主机/服务识别/端口扫描<br>
-![image](http://k8gege.org/k8img/Ladon/cs/Gui_Discover.PNG)
-#### 高危漏洞检测
-![image](http://k8gege.org/k8img/Ladon/cs/Gui_Vulcheck.PNG)
-#### 网络服务密码爆破
-![image](http://k8gege.org/k8img/Ladon/cs/Gui_BruteFor.PNG)
-#### 远程执行/横向移动
-![image](http://k8gege.org/k8img/Ladon/cs/Gui_RemoteExec.PNG)
-#### MSF、NC联动/一键反弹
-![image](http://k8gege.org/k8img/Ladon/cs/Gui_Msfnc.PNG)
+### Cobalt Strike Cracked by k8gege
+
+https://github.com/k8gege/Aggressor/releases/tag/cs
+### Cobalt Strike  K8破解版
+Cobalt Strike 4.4
+Cobalt Strike 4.3
+Cobalt Strike 3.13
+Cobalt Strike 3.12
+
+1.内置Windows版TeamServer.exe启动器
+2.内置巨龙拉冬Ladon7.2中英文版插件
+
+### 巨龙拉冬9.0: 让你的Cobalt Strike变成超级武器 
+https://mp.weixin.qq.com/s/GQBXCX1fiSLi6gKY3M-JcA
+
+#### 无图无真相
+
+好了废话不多说上图，让我们看看Cobalt Strike 4.4巨龙拉冬插件功能
+
+
+如果你熟悉Ladon命令的可以直接在Beacon上执行相应命令即可，如使用“Ladon GetID”命令查看目标机器名、机器ID、CPUID、硬盘ID、MAC地址等信息，主要用于区分一些大内网同名机器，或其它用途。若是你不熟悉可以使用右键菜单，为了方便新人或不太熟的人
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44.PNG)
+
+
+如果不熟悉Ladon命令用法，也可以右键菜单，使用非常方便，只需选择模块填写目标参数如(IP、URL、域名、主机名、CIDR格式IP等)，即可加载对应模块扫描或探测你想获取的信息，如探测C段存在MS17010漏洞的机器。
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_9.PNG)
+
+
+内网外网网络资产探测
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_2.PNG)
+
+
+操作系统信息探测
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_3.PNG)
+
+
+漏洞检测
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_4.PNG)
+
+
+网络密码审计
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_5.PNG)
+
+
+本机信息收集
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_6.PNG)
+
+
+横向移动、远程执行
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_7.PNG)
+
+
+权限提升、本地提权
+
+![](http://k8gege.org/k8img/Ladon/cs/cs44/cs44_8.PNG)
 
 ### 程序简介
 
