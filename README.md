@@ -16,10 +16,10 @@
 
 https://github.com/k8gege/Aggressor/releases/tag/cs
 ### Cobalt Strike  K8破解版
-Cobalt Strike 4.4
-Cobalt Strike 4.3
-Cobalt Strike 3.13
-Cobalt Strike 3.12
+Cobalt Strike 4.4<br>
+Cobalt Strike 4.3<br>
+Cobalt Strike 3.13<br>
+Cobalt Strike 3.12<br>
 
 1.内置Windows版TeamServer.exe启动器
 2.内置巨龙拉冬Ladon7.2中英文版插件
