@@ -26,7 +26,7 @@ Cobalt Strike 3.12<br>
 2.内置巨龙拉冬Ladon7.2中英文版插件
 
 ### 巨龙拉冬9.0: 让你的Cobalt Strike变成超级武器 
-https://mp.weixin.qq.com/s/GQBXCX1fiSLi6gKY3M-JcA
+9.0插件获取：https://mp.weixin.qq.com/s/GQBXCX1fiSLi6gKY3M-JcA
 
 #### 无图无真相
 
