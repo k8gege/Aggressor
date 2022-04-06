@@ -1,4 +1,199 @@
 Wiki: http://k8gege.org/Ladon
+https://mp.weixin.qq.com/s/GQBXCX1fiSLi6gKY3M-JcA
+
+注：Github版容易被杀，也不好一键免杀
+
+Ladon 911 CS版 不支持以下32个功能
+========================================
+ webser runps cve2021_26834 cmddll dirlist porttrans porttranc rdpinfo
+ dvrscan sniffer psexec WinrmExec sshexec ms16135 CVE202140444
+ isshiro cve20200688 ZeroLogon sameweb urlscan tomcatpoc
+ nbtscan mysqlscan oraclescan winrmscan vncscan subdomain
+ webdir tomcatscan rdphijack
+
+Ladon 9.1.1 EXE版 20211108
+==================================================================
+[+]DnsScan 	DNS协议探测多网卡主机
+[+]GetID 	新增获取C盘卷的序列号
+[+]FileZillaPwd 读取FileZilla FTP密码
+[+]WifiPwd 读取连接过的Wifi密码
+
+[u]GetInfo 读取连接过的Wifi密码 
+[u]GetInfo 默认列目录(Administrator桌面)
+
+==================================================================
+Ladon 9.0 20211013
+[+]CVE-2021-36934 读取系统Hash、VPN密码、DPAPI-Key
+[+]默认信息 机器制造商(看是否虚拟机)
+
+
+==================================================================
+Ladon 8.9 20210925
+[+]GetID 	获取PCname GUID CPUID DiskID Mac
+[u]GetInfo  本机网卡MAC获取
+MAC更新
+Hewlett 231
+Iphone 	35
+Android 16
+
+LadonGUI 8.9 20210920
+[+]CmdDll Windows 0day漏洞通用DLL注入生成器
+
+Ladon 8.9 2021.9.15
+[u]webscan CS保留
+[u]CmdDll 去除黑框
+
+Ladon 8.9 2021.9.14
+[+]CVE-2021-40444 Microsoft MSHTML远程代码执行漏洞，Office文档利用模块
+影响版本: 包括Windows 7/8/8.1/10，Windows Server 2008/2008R2/2012/2012R2/2016/2019/2022
+[+]CmdDll cmd转DLL(Win系统0day漏洞DLL执行命令payload，可直接powershell上线CobaltStrike)
+   溢出漏洞如MS17010、本地提权CVE-2021-1675等，非溢出如最新的Office漏洞CVE-2021-40444等
+
+==================================================================
+Ladon 8.8 2021.9.11
+[+]SmbExec NTLM-HASH非交互执行无回显(https://github.com/checkymander/Sharp-SMBExec)
+[u]GetInfo  新增Vmware虚拟机信息
+[u]OsScan   新增识别Vigor Router路由器识别
+[u]新增Xen\VBOX\Hybrid\Parallels虚拟机识别
+[+]GetInfo  新增cmdkey、RrpLog、安装驱动、软件列表、最近访问文件等
+[+]GetInfo  新增GUID、CPUID、硬盘ID、自启动后门检测(DLL却持、注册表等)
+[+]GetInfo2 新增WMI补丁信息获取
+[+]默认信息 新增C盘剩余空间信息小于2G高亮提示
+
+==================================================================
+Ladon 8.7 Debug 2021.8.14
+[+]UsbLog USB使用记录查看(USB名称、USB标记、路径信息)
+
+Ladon 8.6 2021.7.5
+[+]PrintNightmare (CVE-2021-1675 | CVE-2021-34527)打印机漏洞提权EXP 
+
+Ladon 8.5 2021.6.6
+[+]自定义扫描线程，例子: Ladon 192.168.1.8/24 SmbInfo t=80
+[+]ForExec 循环执行"EXP"：指定次数、成功高亮（如SmbGhost CVE-2020-0796）
+[+]RdpInfo 批量请使用For单线程 Ladon 192.168.1.8/24 RdpInfo f=1或for1
+
+==================================================================
+Ladon 8.4 2021.5.30
+以下模块可自定义端口探测 Ladon 192.168.1.8:888 SmbInfo
+[u] WmiInfo
+[u] SmbInfo
+[u] WinrmInfo
+[u] MssqlInfo
+
+[+] OnlinePC 探测Win存活主机(ICMP/NBT/DNS/MAC)
+[u] smbghost检测结果更准确
+[+] NbtInfo 探测Win存活主机
+[+] txt参数 Ladon ip.txt ms17010 (ip.txt/ip24.txt/ip16.txt/host.txt/domain.txt/str.txt)
+
+==================================================================
+Ladon 8.3 2021.5.21
+[+]单线程	例子: Ladon noping 192.168.0.1/24 smbinfo t=1
+[u]Ping		系统自带ping只回显一条结果
+[u]PortScan	修复自定义端口不支持noping参数问题
+[u]base64/base64txt	    支持linux curl命令回显&解密
+[u]webser				支持linux cancel命令回显
+[u]webser				支持linux whois命令回显&解密
+[u]webser				修复非HTTP协议崩溃的Bug
+
+LadonGUI 8.3 2021.5.21
+[+]OnlinePC SmbInfo/WmiInfo/MssqlInfo/WinrmInfo/ExchangeInfo
+[u]简明wiki更新至8.3共112模块用法
+[u]Netcat  支持whois命令&Base64回显
+[u]Gui界面美化-增加图标，模块更直观
+
+Ladon 8.2 2021.5.15
+基于NTLM探测Windows版本信息
+[+] WmiInfo 		(135)
+[+] SmbInfo 		(445)
+[+] WinrmInfo 		(5985/80/8080/443)
+[+] MssqlInfo		(1433)
+[+] ExchangeInfo	(443)
+[+] RdpInfo			(3389)
+[+] WmiExec			Base64cmd解决Cobalt Strike无法解析空格引号参数
+[+] WmiExec2		支持文件上传、Base64cmd解决CS解析空格引号的问题
+[+] Ping			重新启用系统Ping检测存活主机(目标PS1版本检测不到)
+
+LadonGUI 8.2 2021.5.15
+[+]Base64 Unicdoe	主要用于WmiExec2或PowerShell命令的BASE64加密解密
+
+====================================
+Ladon 8.1 2021.5.1
+[+]WebSer deb64txt/debase64txt 保存Base64解密结果(命令结果太长CMD显示不完整)
+[+]WebSer 修复base64编码中包含+/=符号以无法提交systeminfo结果问题
+
+LadonGUI 8.1 2021.5.1
+[+]SubDomain ctr.sh证书域名
+[+]SubDomain 网页内提取域名
+
+
+LadonGUI 2021.2.18
+[+]Base64加密解密
+[+]Base32加密解密
+[+]Hex加密解密
+[+]Ascii加密解密
+
+Ladon 8.0 2021.2.6
+[+] BypassUac 五种方法UAC提权（非交互式执行Base64加密CMD命令）
+用法Ladon BypassUac
+
+eventvwr
+fodhelper
+computerdefaults
+sdclt
+slui
+
+[+] BypassUac2 eventvwr方法执行明文cmd命令
+
+===========================================
+Ladon 7.9 2021.2.2
+[u] 修复无参时报错“调用目标异常”的BUG
+2021.01.30
+[+] DirList 全盘列目录(默认全盘，可指定盘符或目录如Ladon DirList c:\)
+2021.01.24
+[u] WebSer Banner修改为IIS 10
+[+] WebSer 可设置web目录(以免内存加载后非当前路径)
+[u] ActiveAdmin 修复激活内置管理员
+[u] ActiveGuest 修复激活内置用户
+
+Ladon 7.8 2021.1.10
+[+] 修复CS版X64上线无法加载Ladon的Bug
+[+] QueryProxy 查看IE代理服务器信息
+
+Ladon 7.8 2021.1.3
+[+] PortTran  端口转发(https://github.com/k8gege/PortTran)
+
+Ladon 7.8 2020.12.30
+[+] netsh     系统netsh端口转发简短命令
+[+] Runas     新增反弹交互命令功能,如NC
+[u] Runas     修复域控用户模拟特权问题
+[u] SshScan   修复SSH爆破自定义端口的BUG
+[u] PortScan 3000 Ruby on Rails
+
+GUI 2020.12.25
+[+] Netcat PowerShell命令加密执行
+[+] Netcat 内存加载PowerLadon执行
+
+GUI 2020.12.16
+[u] Netcat 修复不兼容Linux反弹shell的Bug
+[+] Netcat 执行命令历史记录
+
+Ladon 7.7 2020.11.23
+============================
+[+] SnmpScan  Snmp协议探测操作系统、设备等信息
+[+] DvrScan	  网络摄像头密码爆破(内置默认密码)
+
+Ladon 7.6 2020.11.21
+============================
+[+] IsShiro	  Shiro插件探测
+
+[u] WebSer 	     弹计算器Payload测试专用
+/calc.sct        regsvr32 mshta rundll32
+/calc2.sct       pubprn.vbs
+/calc.hta        mshta
+/calc.xsl        wmic msxsl
+
+GUI 2020.11.20
+[+] SubDomain Banner & Title
 
 GUI 2020.11.2
 [+] SubDomain 高效率子域名扫描（3万字典）
@@ -23,6 +218,7 @@ GUI 2020.10.18
 
 
 7.5 2020.10.10
+============================
 [+] Ladon 7.5 for CS
 [+] OsScan   Exchange Detection Win 465\143\587\25\110
 [+] PortScan Exchange 465\993\143\995 DC/DNS  88\6011
@@ -162,3 +358,161 @@ Ladon 6.5 远程执行命令 20200530
 [+] WmiExec非交互回显  (https://github.com/nccgroup/WMIcmd)
 [+] AtExec 非交互回显  (https://github.com/0x7556/smbexec)
 [+] GetIP 获取本机内网IP与外网IP
+
+
+Ladon 6.2 AdiDnsDump 20200316
+===========================================
+ID | 模块名称 | 功能说明 | 返回结果
+-|-|-|-|-
+0 | OnlinePC | 存活主机扫描 | 存活IP、Mac地址、机器名、设备制造商
+1 | SmbHashScan | SMB HASH密码爆破(Windows) | 检测过程、成功密码、LOG文件 |
+2 | WmiHashScan | WMI HASH密码爆破(Windows) | 检测过程、成功密码、LOG文件 |
+3 | BypassUac | 绕过UAC执行,支持Win7-Win10 | Ladon BypassUac c:\1.exe
+4 | EnableDotNet | 一键启用.net 3.5(2008系统默认未启用) | Ladon EnableDotNet
+5 | gethtml | 获取内网站点HTML源码 | Ladon gethtml http://192.168.1.1
+6 | AdiDnsDump | 域内机器信息获取(非域内请使用LdapScan探测) | IP、域名
+7 | LdapScan | 不指定密码时，仅探测LDAP服务器 | IP是否LDAP服务器
+8 | FtpScan | 不指定密码时，仅探测FTP服务器 | IP是否FTP服务器
+
+
+Ladon 6.0 20191224
+===========================================================================
+[+]LdapScan AD域密码爆破:基于Ldap协议爆破Windows密码（非Ldap服务器提示不可操作）
+[+]GetCmdLine/CmdLine 获取进程命令行参数/可指定进程
+[+]GetInfo 获取渗透基础信息（当前IP、域信息、系统信息、软件信息、网络连接、补丁信息、用户等）
+[+]GetInfo2 包含GetInfo & Wmi获取信息
+[+]FtpSniffer/SnifferFtp Ftp密码嗅探(无需WinPcap)
+[+]HttpSniffer/SnifferHTTP HTTP密码嗅探(无需WinPcap)
+[+]Sniffer 仅嗅探(源地址、目标地址)，可用于发现内网存活主机、恶意木马上线地址(如CS默认一分钟才发包的netstat不一定看得到)
+[+]EnumIIS/IisWeb 获取IIS站点、路径、帐号、密码
+[+]EnumProcess/ProcessList/tasklist 枚举进程 结果(PID、Session、进程位数、进程名、用户名、路径、标题)
+
+[u]HttpDownload/wget HTTP下载命令简化也可使用wget
+[u]OsScan 扫描速度优化(某项目批量C段不再卡死)
+[u]WmiScan 135端口关闭或RPC不可用停止爆破
+[u]SmbScan 445端口关闭停止爆破(功能完美代替IpcScan，只是需使用DLL)
+[-]IPCScan 速度慢以及批量可能存在误报将其移除，反正SmbScan完全替代
+[u]所有功能模块参数忽略大小写
+===========================================================================
+
+Ladon 5.8 20191214
+===========================================================================
+[u]OsScan新增RDP探测Windows系统版本
+[u]OsScan新增netbios协议获取机器名
+[u]OnlinePC新增Vmware虚拟机识别
+[+]扫描时间 & 结束时间
+[u]OsScan新增MAC/DNS探测存活主机
+[u]OsScan新增Vmware\TP-LINK\Cisco识别
+
+Ladon 5.8 20191210
+[+]Golang插件 goscan.dll
+[+]Bug修复
+[+]非IP提示(以免测试ping不通导致插件接收不到参数)
+[+]HttpDownLoad
+[+]FtpDownLoad
+[u]优化加载c# dll插件
+[u]优化加载c# exe插件
+[+]判断自定义模块是否存在
+===========================================================================
+
+Ladon 5.7 20191127
+===========================================================================
+EnumMSSQL 改成 EnumMssql
+目标内网测试HttpBasicScan模块
+使用10个弱口令成功登陆以下设备或WEB站点
+
+DlinkDPR-1061打印机
+Cisco路由或交换机
+Cisco Catalyst 3750 Series
+Cisco WS-C2950-24 "SW-INOC2"
+Nortel Alteon OS应用交换机
+HP交换机（GbE2c L2/L3 Ethernet Blade Switch for HP c-Class BladeSystem）
+phpMyAdmint
+Tomcat
+
+[+]HttpBasicScan Tomcat\phpMyAdmint等基本认证密码爆破
+[+]HttpBasicScan 401认证密码爆破(支持用户密码、仅密码)
+[+]TomcatScan Tomcat密码爆破/弱口令破解
+[u]WahtCMS + Apache Axis2 & Apache Flink
+===========================================================================
+
+5.6 1121
+OnlineIP MAC和DNS存活主机
+1119
+[+]noping参数利用MAC和DNS发现存活主机(默认也加了,这样noping参数可能获取结果会少一些)
+1115
+[+]WeblogicPoc CVE-2018-2894
+
+Ladon 5.5 1109
+[+]Struts2Poc(S2-005/S2-009/S2-013/S2-016/S2-019/S2-032/DevMode)
+[u]WeblogicScan支持userpass.txt & check.txt
+1108
+[u]修复RarScan未判断文件是否存在的BUG
+[u]MssqlScan支持userpass.txt
+[u]WmiScan支持userpass.txt
+[u]SmbScan支持userpass.txt
+[u]IpcScan支持userpass.txt
+[u]FtpScan支持userpass.txt
+[u]MysqlScan支持userpass.txt
+
+1107
+[u]SSHScan支持自定义端口 & userpass.txt
+[u]OracleScan支持自定义端口& userpass.txt
+[u]MssqlScan支持自定义端口
+[u]MysqlScan支持自定义端口
+[u]FtpScan支持自定义端口
+[u]OSscan修改为OsScan,SSHscan修改为SshScan
+[+]VncScan密码破解支持自定义端口(仅需密码)
+
+1106
+[u]OSscan添加MAC地址，用于判断目标是否重装
+[u]SmbScan添加登陆失败错误提示
+[u]修改Program为Scan,反射调用[Ladon.Scan]
+[u]易输错的nocheck参数改为noping,也易理解
+
+Ladon 5.5 Update 20191105
+[u]方法公开支持PowerShell反射加载
+[u]修复PortScan默认扫两个1521端口的BUG
+[u]修复PortScan模块不支持CS且rundll32崩溃的BUG
+
+
+Ladon 5.5 Update 20191104
+[+]RAR文件密码爆破
+[u]主程序及插件命名空间Ladon
+[u]WebDir -1状态不打印(Web不存在)
+
+Ladon 5.5 Update 20191101
+修复无参时无法加载插件BUG（会导致无法加载url.txt\ip.txt）
+
+Ladon 5.5 Update 20191031
+============================================================
+[+]参数加载PS1脚本
+[+]参数加载INI脚本
+OracleScan 高亮 & (check.txt) 不兼容CS
+MysqlScan 高亮 & (check.txt) 不兼容CS
+TomcatPoc 高亮
+TomcatExp 高亮
+WeblogicPoc 高亮
+WeblogicExp 高亮
+============================================================
+
+Ladon 5.5 Update 20191030
+============================================================
+PortScan 不兼容CS 端口扫描时rundll32崩溃弹框BUG未修复
+SSHscan 高亮 & (check.txt) 不兼容CS (未支持KEYIN认证)
+SmbScan 高亮 & (check.txt) 不兼容CS
+PhpStudyPoc 高亮
+FtpScan 高亮 & (check.txt)
+WmiScan 高亮 & (check.txt)
+IpcScan 高亮 & (check.txt)
+MS17010 高亮
+MssqlScan 高亮 & (check.txt)
+============================================================
+
+
+Ladon 5.0
+===========================================
+4 	CiscoScan 	思科设备扫描 	存活IP、设备型号、主机名、Boot、硬件版本
+5 	EnumMssql 	枚举Mssql数据库主机 	数据库IP、机器名、SQL版本
+6 	EnumShare 	枚举网络共享资源 	域、存活IP、共享路径
+[+]新增 [u]更新 [-]移除

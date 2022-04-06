@@ -1,13 +1,18 @@
-#Ladon 7.2 for Cobalt Strike
+#Ladon 9.1.1 for Cobalt Strike
 #author:	k8gege
 #blog:		http://k8gege.org/Ladon
 #github:	https://github.com/k8gege
 #teston:	CS 3.x & 4.0
-#update: 	20211015
+#update: 	20211024
+#https://mp.weixin.qq.com/s/GQBXCX1fiSLi6gKY3M-JcA
 
-#ä¸€äº›æ¨¡å—ä¸æ”¯æŒCS(ç¡®å´çš„è¯´æ˜¯CSæ˜¯ä¸æ”¯æŒ)ï¼Œè‹¥éœ€è¦è¯·ä½¿ç”¨EXEå…¨åŠŸèƒ½ç‰ˆã€‚
-#ä¸æ”¯æŒæ¨¡å—1: [NbtScan VncScan MysqlScan OracleScan SSHscan WinrmScan]  
-#ä¸æ”¯æŒæ¨¡å—2: [SubDomain PsExec WinrmExec DumpLsass RdpHijack cve-2020-0688]
+#Ò»Ð©Ä£¿é²»Ö§³ÖCS(È·È´µÄËµÊÇCSÊÇ²»Ö§³Ö)£¬ÈôÐèÒªÇëÊ¹ÓÃEXEÈ«¹¦ÄÜ°æ¡£
+#Some functions are not compatible with CS, please use exe version
+#²»Ö§³Ö: webser runps cve2021_26834 cmddll dirlist porttrans porttranc rdpinfo
+#²»Ö§³Ö: dvrscan sniffer psexec WinrmExec sshexec ms16135 CVE202140444
+#²»Ö§³Ö: isshiro cve20200688 ZeroLogon sameweb urlscan tomcatpoc
+#²»Ö§³Ö: nbtscan mysqlscan oraclescan winrmscan vncscan subdomain
+#²»Ö§³Ö: webdir tomcatscan rdphijackdvrscan¡¢cmddll]
 
 beacon_command_register(
 "Ladon", 
@@ -17,7 +22,7 @@ beacon_command_register(
 alias Ladon {
 	if (-exists script_resource("Ladon.exe")) {
 	if ($2 eq "help"){
-	blog2($1, "Ladon 7.2");
+	blog2($1, "Ladon 9.1.1");
 	blog2($1, "Usage:");
 	#blog2($1, "Ladon 1");
 	blog2($1, "Ladon ip");
@@ -152,12 +157,12 @@ alias CVE-2019-2725-EXP {
 }
 
 popup beacon_bottom {
-menu "å·¨é¾™æ‹‰å†¬" {
-item("&Ladon 7.2", { url_open("https://k8gege.org/Ladon?cs"); });
+menu "¾ÞÁúÀ­¶¬" {
+item("&Ladon 9.1.1", { url_open("https://k8gege.org/Ladon?cs"); });
 separator();
 
-menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
-	item "å¤šåè®®æŽ¢æµ‹å­˜æ´»ä¸»æœº" {
+menu "ÍøÂç×Ê²úÊÕ¼¯" {
+	item "¶àÐ­ÒéÌ½²â´æ»îÖ÷»ú" {
 	#OnlinePC
 	$bid = $1;
 	$dialog = dialog("Ladon OnlinePC", %(tar => "",moudle => "OnlinePC",clrver => "35",bid => $bid), &LadonScan);
@@ -169,7 +174,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "ä»…ICMPæŽ¢æµ‹å­˜æ´»(å¿«)" {
+	item "½öICMPÌ½²â´æ»î(¿ì)" {
 	#OnlineIP
 	$bid = $1;
 	$dialog = dialog("Ladon ICMP", %(tar => "",moudle => "ICMP",clrver => "35",bid => $bid), &LadonScan);
@@ -181,7 +186,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "Oxidå¤šç½‘å¡ä¸»æœºæŽ¢æµ‹" {
+	item "Oxid¶àÍø¿¨Ö÷»úÌ½²â" {
 	#OSscan
 	$bid = $1;
 	$dialog = dialog("Ladon EthScan", %(tar => "",moudle => "EthScan",clrver => "35",bid => $bid), &LadonScan);
@@ -193,7 +198,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "å¤šåè®®æ“ä½œç³»ç»ŸæŽ¢æµ‹" {
+	item "¶àÐ­Òé²Ù×÷ÏµÍ³Ì½²â" {
 	#OSscan
 	$bid = $1;
 	$dialog = dialog("Ladon OSscan", %(tar => "",moudle => "OSscan",clrver => "35",bid => $bid), &LadonScan);
@@ -205,7 +210,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "ç½‘ç«™ã€æ ‡é¢˜ã€Banner" {
+	item "ÍøÕ¾¡¢±êÌâ¡¢Banner" {
 	#WebScan
 	$bid = $1;
 	$dialog = dialog("Ladon WebScan", %(tar => "",moudle => "WebScan",clrver => "35",bid => $bid), &LadonScan);
@@ -217,7 +222,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "æ™ºèƒ½ç½‘ç«™CMSè¯†åˆ«" {
+	item "ÖÇÄÜÍøÕ¾CMSÊ¶±ð" {
 	#WhatCMS
 	$bid = $1;
 	$dialog = dialog("Ladon WhatCMS", %(tar => "",moudle => "WhatCMS",clrver => "35",bid => $bid), &LadonScan);
@@ -229,7 +234,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "å¸¸è§ç«¯å£æœåŠ¡æŽ¢æµ‹" {
+	item "³£¼û¶Ë¿Ú·þÎñÌ½²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon PortScan", %(tar => "",moudle => "PortScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -240,7 +245,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "ShiroæŽ¢æµ‹" {
+	item "ShiroÌ½²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon IsShiro", %(tar => "",moudle => "IsShiro",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -251,7 +256,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "CiscoæŽ¢æµ‹" {
+	item "CiscoÌ½²â" {
 	#CiscoScan
 	$bid = $1;
 	$dialog = dialog("Ladon CiscoScan", %(tar => "",moudle => "CiscoScan",clrver => "35",bid => $bid), &LadonScan);
@@ -263,7 +268,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "LDAPæœåŠ¡å™¨æŽ¢æµ‹" {
+	item "LDAP·þÎñÆ÷Ì½²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or Host or Domain");
@@ -274,7 +279,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "FTPæœåŠ¡å™¨æŽ¢æµ‹" {
+	item "FTP·þÎñÆ÷Ì½²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon FtpScan", %(tar => "",moudle => "FtpScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or Host or Domain");
@@ -286,7 +291,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dialog_show($dialog);
 	}
 
-	item "æžšä¸¾MSSQLæœåŠ¡å™¨" {
+	item "Ã¶¾ÙMSSQL·þÎñÆ÷" {
 	#EnumMssql
 	$bid = $1;
 	$dialog = dialog("Ladon EnumMssql", %(tar => "",moudle => "EnumMssql",clrver => "35",bid => $bid), &GetInfo);
@@ -298,7 +303,7 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "æžšä¸¾å…±äº«èµ„æº" {
+	item "Ã¶¾Ù¹²Ïí×ÊÔ´" {
 	#EnumShare
 	$bid = $1;
 	$dialog = dialog("Ladon EnumShare", %(tar => "",moudle => "EnumShare",clrver => "35",bid => $bid), &GetInfo);
@@ -312,8 +317,8 @@ menu "ç½‘ç»œèµ„äº§æ”¶é›†" {
 	}
 }
 
-menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
-	item "SMBæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+menu "ÏµÍ³ÐÅÏ¢Ì½²â" {
+	item "SMBÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon SmbInfo", %(tar => "",moudle => "SmbInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -324,7 +329,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "WMIæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "WMIÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon WmiInfo", %(tar => "",moudle => "WmiInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -335,7 +340,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "NBTæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "NBTÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon NbtInfo", %(tar => "",moudle => "NbtInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -346,7 +351,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "RDPæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "RDPÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon RdpInfo", %(tar => "",moudle => "RdpInfo f=1",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -357,7 +362,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "SNMPæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "SNMPÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon SnmpScan", %(tar => "",moudle => "SnmpScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -368,7 +373,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "MSSQLæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "MSSQLÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon MssqlInfo", %(tar => "",moudle => "MssqlInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -379,7 +384,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "WINRMæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "WINRMÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon WinrmInfo", %(tar => "",moudle => "WinrmInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -390,7 +395,7 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "ExchangeæŽ¢æµ‹ç³»ç»Ÿä¿¡æ¯" {
+	item "ExchangeÌ½²âÏµÍ³ÐÅÏ¢" {
 	$bid = $1;
 	$dialog = dialog("Ladon ExcahngeInfo", %(tar => "",moudle => "ExcahngeInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -403,8 +408,8 @@ menu "ç³»ç»Ÿä¿¡æ¯æŽ¢æµ‹" {
 	}
 }
 
-menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
-	item "SMBæ°¸æ’ä¹‹è“æ£€æµ‹" {
+menu "Ô¶³ÌÂ©¶´¼ì²â" {
+	item "SMBÓÀºãÖ®À¶¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon MS17010", %(tar => "",moudle => "MS17010",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -415,7 +420,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "SMBæ°¸æ’ä¹‹é»‘æ£€æµ‹" {
+	item "SMBÓÀºãÖ®ºÚ¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon SMBGhost", %(tar => "",moudle => "SMBGhost",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -426,7 +431,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "Struts2æ¼æ´žæ£€æµ‹" {
+	item "Struts2Â©¶´¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon Struts2Poc", %(tar => "",moudle => "Struts2Poc",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -437,7 +442,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "Weblogicæ¼æ´žæ£€æµ‹" {
+	item "WeblogicÂ©¶´¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon WeblogicPoc", %(tar => "",moudle => "WeblogicPoc",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -448,7 +453,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "PhpStudyåŽé—¨æ£€æµ‹" {
+	item "PhpStudyºóÃÅ¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon PhpStudyPoc", %(tar => "",moudle => "PhpStudyPoc",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -460,7 +465,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 	dialog_show($dialog);
 	
 	}
-	item "ActiveMQæ¼æ´žæ£€æµ‹" {
+	item "ActiveMQÂ©¶´¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon ActiveMQPoc", %(tar => "",moudle => "ActiveMQPoc",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -471,7 +476,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "Tomcatæ¼æ´žæ£€æµ‹" {
+	item "TomcatÂ©¶´¼ì²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon TomcatExp", %(tar => "",moudle => "TomcatExp",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -485,7 +490,7 @@ menu "è¿œç¨‹æ¼æ´žæ£€æµ‹" {
 
 }
 
-menu "ä¸€é”®GetShell" {
+menu "Ò»¼üGetShell" {
 	item "Exchange CVE-2020-0688" {
 	#Ladon cve-2020-0688 192.168.1.142 Administrator K8gege520
 	}
@@ -513,8 +518,8 @@ menu "ä¸€é”®GetShell" {
 	}
 }
 
-menu "ç½‘ç»œå¯†ç å—…æŽ¢" {
-	item "FTPå¯†ç å—…æŽ¢" {
+menu "ÍøÂçÃÜÂëÐáÌ½" {
+	item "FTPÃÜÂëÐáÌ½" {
 	$bid = $1;
 	$dialog = dialog("Ladon FtpSniffer", %(tar => "",moudle => "FtpSniffer",clrver => "35",bid => $bid), &LoadMoudle2);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -525,7 +530,7 @@ menu "ç½‘ç»œå¯†ç å—…æŽ¢" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "HTTPå¯†ç å—…æŽ¢" {
+	item "HTTPÃÜÂëÐáÌ½" {
 	$bid = $1;
 	$dialog = dialog("Ladon HttpSniffer", %(tar => "",moudle => "HttpSniffer",clrver => "35",bid => $bid), &LoadMoudle2);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -538,8 +543,8 @@ menu "ç½‘ç»œå¯†ç å—…æŽ¢" {
 	}
 }
 
-menu "ç½‘ç»œå¯†ç å®¡è®¡" {
-	item "445ç«¯å£SMBå¯†ç å®¡è®¡(Windows)" {
+menu "ÍøÂçÃÜÂëÉó¼Æ" {
+	item "445¶Ë¿ÚSMBÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon SmbScan", %(tar => "",moudle => "SmbScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -550,7 +555,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "135ç«¯å£WMIå¯†ç å®¡è®¡(Windows)" {
+	item "135¶Ë¿ÚWMIÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon WmiScan", %(tar => "",moudle => "WmiScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -561,7 +566,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "445ç«¯å£SMB-HASHå¯†ç å®¡è®¡(Windows)" {
+	item "445¶Ë¿ÚSMB-HASHÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon SmbHashScan", %(tar => "",moudle => "SmbHashScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -572,7 +577,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "135ç«¯å£WMI-HASHå¯†ç å®¡è®¡(Windows)" {
+	item "135¶Ë¿ÚWMI-HASHÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon WmiHashScan", %(tar => "",moudle => "WmiHashScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -583,7 +588,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "139ç«¯å£NBTå¯†ç å®¡è®¡(Windows)" {
+	item "139¶Ë¿ÚNBTÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon NbtInfo", %(tar => "",moudle => "NbtInfo",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -594,10 +599,10 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "5985ç«¯å£Winrmå¯†ç å®¡è®¡(Windows)" {
+	item "5985¶Ë¿ÚWinrmÃÜÂëÉó¼Æ(Windows)" {
 
 	}
-	item "21ç«¯å£FTPå¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "21¶Ë¿ÚFTPÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 	$bid = $1;
 	$dialog = dialog("Ladon FtpScan", %(tar => "",moudle => "FtpScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -608,10 +613,10 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "5900ç«¯å£VNCå¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "5900¶Ë¿ÚVNCÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 
 	}
-	item "389ç«¯å£LDAPå¯†ç å®¡è®¡(Windows)" {
+	item "389¶Ë¿ÚLDAPÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -622,10 +627,10 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "1521ç«¯å£Oracleæ•°æ®åº“å¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "1521¶Ë¿ÚOracleÊý¾Ý¿âÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 
 	}
-	item "1433ç«¯å£SQLæ•°æ®åº“å¯†ç å®¡è®¡(Windows)" {
+	item "1433¶Ë¿ÚSQLÊý¾Ý¿âÃÜÂëÉó¼Æ(Windows)" {
 	$bid = $1;
 	$dialog = dialog("Ladon MssqlScan", %(tar => "",moudle => "MssqlScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -636,7 +641,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "3306ç«¯å£MYSQLæ•°æ®åº“å¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "3306¶Ë¿ÚMYSQLÊý¾Ý¿âÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 	$bid = $1;
 	$dialog = dialog("Ladon MysqlScan", %(tar => "",moudle => "MysqlScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -647,7 +652,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "7001ç«¯å£WeblogicåŽå°å¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "7001¶Ë¿ÚWeblogicºóÌ¨ÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 	$bid = $1;
 	$dialog = dialog("Ladon WeblogicScan", %(tar => "",moudle => "WeblogicScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -658,7 +663,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "Webç«¯å£TomcatåŽå°å¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "Web¶Ë¿ÚTomcatºóÌ¨ÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 	$bid = $1;
 	$dialog = dialog("Ladon TomcatScan", %(tar => "",moudle => "TomcatScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -669,7 +674,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "Webç«¯å£401åŸºç¡€è®¤è¯å¯†ç å®¡è®¡(å¤šå¹³å°)" {
+	item "Web¶Ë¿Ú401»ù´¡ÈÏÖ¤ÃÜÂëÉó¼Æ(¶àÆ½Ì¨)" {
 	$bid = $1;
 	$dialog = dialog("Ladon HttpBasicScan", %(tar => "",moudle => "HttpBasicScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -680,9 +685,9 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "22ç«¯å£SSHå¯†ç å®¡è®¡(Linux_å¤šå¹³å°)" {
+	item "22¶Ë¿ÚSSHÃÜÂëÉó¼Æ(Linux_¶àÆ½Ì¨)" {
 	$bid = $1;
-	$dialog = dialog("è¯¥åŠŸèƒ½æœªæ”¯æŒ", %(tar => "",moudle => "nonono",clrver => "35",bid => $bid), &LadonScan);
+	$dialog = dialog("¸Ã¹¦ÄÜÎ´Ö§³Ö", %(tar => "",moudle => "nonono",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
 	drow_text($dialog, "tar",  "Target:");
 	#drow_combobox($dialog, "moudle", "Moudle:", @("OnlinePC","OnlineIP","OSScan", "WebScan", "WhatCMS","CiscoScan","SameWeb","UrlScan","EnumMssql","EnumShare"));
@@ -691,7 +696,7 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "ç½‘ç»œæ‘„åƒå¤´å¯†ç å®¡è®¡(401è®¤è¯)" {
+	item "ÍøÂçÉãÏñÍ·ÃÜÂëÉó¼Æ(401ÈÏÖ¤)" {
 	$bid = $1;
 	$dialog = dialog("Ladon DvrScan", %(tar => "",moudle => "DvrScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -704,20 +709,20 @@ menu "ç½‘ç»œå¯†ç å®¡è®¡" {
 	}
 }
 
-menu "æœ¬æœºæ‰§è¡Œ" {
-	item "scæœåŠ¡æ‰§è¡Œ(systemæƒé™)" {
+menu "±¾»úÖ´ÐÐ" {
+	item "sc·þÎñÖ´ÐÐ(systemÈ¨ÏÞ)" {
 	}
-	item "atè®¡åˆ’ä»»åŠ¡(systemæƒé™)" {
+	item "at¼Æ»®ÈÎÎñ(systemÈ¨ÏÞ)" {
 	}
-	item "Runas(æ¨¡æ‹Ÿç”¨æˆ·æ‰§è¡Œ)" {
+	item "Runas(Ä£ÄâÓÃ»§Ö´ÐÐ)" {
 	}
-	item "RunPS(æ— powershellæ‰§è¡Œ)" {
+	item "RunPS(ÎÞpowershellÖ´ÐÐ)" {
 	}
-	item "ForExec(å¾ªçŽ¯æ‰§è¡Œå‘½ä»¤)" {
+	item "ForExec(Ñ­»·Ö´ÐÐÃüÁî)" {
 	}
 }
 
-menu "è¿œç¨‹æ‰§è¡Œ" {
+menu "Ô¶³ÌÖ´ÐÐ" {
 	item "WinrmExec" {
 	}
 	item "SshExec" {
@@ -744,7 +749,7 @@ menu "è¿œç¨‹æ‰§è¡Œ" {
 	}
 }
 
-menu "æœ¬åœ°ææƒ" {
+menu "±¾µØÌáÈ¨" {
 	menu "BypassUac" {
 	item "eventvwr" {
 	}
@@ -775,17 +780,17 @@ menu "æœ¬åœ°ææƒ" {
 	}
 }
 
-menu "è‡ªå¯åŠ¨" {
-	item "æ³¨å†Œè¡¨è‡ªå¯åŠ¨" {
+menu "×ÔÆô¶¯" {
+	item "×¢²á±í×ÔÆô¶¯" {
 	#RegAuto
 	}
-	item "æœåŠ¡å¯åŠ¨é¡¹" {
+	item "·þÎñÆô¶¯Ïî" {
 	#sc
 	}
 }
 
-menu "3389è¿œç¨‹æ¡Œé¢" {
-	item "ä¸€é”®å¼€å¯3389" {
+menu "3389Ô¶³Ì×ÀÃæ" {
+	item "Ò»¼ü¿ªÆô3389" {
 	$bid = $1;
 	$dialog = dialog("Ladon Open3389", %(tar => "",moudle => "Open3389",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "Open3389");
@@ -796,7 +801,7 @@ menu "3389è¿œç¨‹æ¡Œé¢" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "æŸ¥çœ‹3389è¿œç¨‹è¿žæŽ¥" {
+	item "²é¿´3389Ô¶³ÌÁ¬½Ó" {
 	$bid = $1;
 	$dialog = dialog("Ladon RdpLog", %(tar => "",moudle => "RdpLog",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "RdpLog");
@@ -807,7 +812,7 @@ menu "3389è¿œç¨‹æ¡Œé¢" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "æŸ¥çœ‹ç®¡ç†å‘˜ç»„ç”¨æˆ·" {
+	item "²é¿´¹ÜÀíÔ±×éÓÃ»§" {
 	$bid = $1;
 	$dialog = dialog("Ladon QueryAdmin", %(tar => "",moudle => "QueryAdmin",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "QueryAdmin");
@@ -818,7 +823,7 @@ menu "3389è¿œç¨‹æ¡Œé¢" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "æ¿€æ´»Administrator" {
+	item "¼¤»îAdministrator" {
 	$bid = $1;
 	$dialog = dialog("Ladon ActiveAdmin", %(tar => "",moudle => "ActiveAdmin",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "ActiveAdmin");
@@ -829,7 +834,7 @@ menu "3389è¿œç¨‹æ¡Œé¢" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "æ¿€æ´»ç”¨æˆ·Guest" {
+	item "¼¤»îÓÃ»§Guest" {
 	$bid = $1;
 	$dialog = dialog("Ladon ActiveGuest", %(tar => "",moudle => "ActiveGuest",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "ActiveGuest");
@@ -840,13 +845,13 @@ menu "3389è¿œç¨‹æ¡Œé¢" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "è¿œç¨‹æ¡Œé¢ä¼šè¯åŠ«æŒ" {
+	item "Ô¶³Ì×ÀÃæ»á»°½Ù³Ö" {
 	#RDPhijack
 	}
 }
 
-menu "è¿œç¨‹ä¸‹è½½" {
-	item "Httpæ–‡ä»¶ä¸‹è½½" {
+menu "Ô¶³ÌÏÂÔØ" {
+	item "HttpÎÄ¼þÏÂÔØ" {
 	$bid = $1;
 	$dialog = dialog("Ladon HttpDownLoad", %(tar => "",moudle => "HttpDownLoad",clrver => "35",bid => $bid), &LoadMoudle2);
 	dialog_description($dialog, "Target: url");
@@ -857,12 +862,12 @@ menu "è¿œç¨‹ä¸‹è½½" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "FTPæ–‡ä»¶ä¸‹è½½" {
+	item "FTPÎÄ¼þÏÂÔØ" {
 	}
 }
 
-menu "åŸŸ(DCã€LDAP)" {
-	item "åŸŸå†…æœºå™¨ä¿¡æ¯èŽ·å–(åŸŸå†…)" {
+menu "Óò(DC¡¢LDAP)" {
+	item "ÓòÄÚ»úÆ÷ÐÅÏ¢»ñÈ¡(ÓòÄÚ)" {
 	$bid = $1;
 	$dialog = dialog("Ladon AdiDnsDump", %(tar => "",moudle => "AdiDnsDump",clrver => "35",bid => $bid), &LoadMoudle2);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -873,7 +878,7 @@ menu "åŸŸ(DCã€LDAP)" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "389ç«¯å£LDAPæœåŠ¡å™¨æŽ¢æµ‹" {
+	item "389¶Ë¿ÚLDAP·þÎñÆ÷Ì½²â" {
 	$bid = $1;
 	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or Host or Domain");
@@ -884,7 +889,7 @@ menu "åŸŸ(DCã€LDAP)" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "389ç«¯å£LDAPå¯†ç å®¡è®¡" {
+	item "389¶Ë¿ÚLDAPÃÜÂëÉó¼Æ" {
 	$bid = $1;
 	$dialog = dialog("Ladon LdapScan", %(tar => "",moudle => "LdapScan",clrver => "35",bid => $bid), &LadonScan);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -895,7 +900,7 @@ menu "åŸŸ(DCã€LDAP)" {
 	dbutton_action($dialog, "Scan");
 	dialog_show($dialog);
 	}
-	item "CVE-2020-1472åŸŸæŽ§ææƒ" {
+	item "CVE-2020-1472Óò¿ØÌáÈ¨" {
 	$bid = $1;
 	$dialog = dialog("Ladon ZeroLogon", %(tar => "",moudle => "ZeroLogon",clrver => "35",bid => $bid), &LoadMoudle2);
 	dialog_description($dialog, "Target: IP or CIDR or URL or Host or Domain");
@@ -908,8 +913,8 @@ menu "åŸŸ(DCã€LDAP)" {
 	}
 }
 
-menu "åŽé—¨/æœ¨é©¬æŸ¥çœ‹" {
-	item "æ³¨å†Œè¡¨å¯åŠ¨é¡¹" {
+menu "ºóÃÅ/Ä¾Âí²é¿´" {
+	item "×¢²á±íÆô¶¯Ïî" {
 	$bid = $1;
 	$dialog = dialog("Ladon CheckDoor", %(tar => "",moudle => "CheckDoor",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "CheckDoor Regedit AutoRun & dll hijack");
@@ -920,7 +925,7 @@ menu "åŽé—¨/æœ¨é©¬æŸ¥çœ‹" {
 	dbutton_action($dialog, "Start");
 	dialog_show($dialog);
 	}
-	item "ç³»ç»Ÿå´æŒDLL" {
+	item "ÏµÍ³È´³ÖDLL" {
 	$bid = $1;
 	$dialog = dialog("Ladon CheckDoor", %(tar => "",moudle => "CheckDoor",clrver => "35",bid => $bid), &GetInfo);
 	dialog_description($dialog, "CheckDoor Regedit AutoRun & dll hijack");
@@ -933,7 +938,7 @@ menu "åŽé—¨/æœ¨é©¬æŸ¥çœ‹" {
 	}
 }
 
-menu "åŸŸåè§£æž" {
+menu "ÓòÃû½âÎö" {
 	item "Domain2IP" {
 	$bid = $1;
 	$dialog = dialog("Domain2IP", %(tar => "",moudle => "Domain2IP",clrver => "35",bid => $bid), &LadonScan);
@@ -957,14 +962,14 @@ menu "åŸŸåè§£æž" {
 	dialog_show($dialog);
 	}
 }
-menu "ç«¯å£è½¬å‘" {
-	item "netsh(ç³»ç»Ÿè‡ªå¸¦)" {
+menu "¶Ë¿Ú×ª·¢" {
+	item "netsh(ÏµÍ³×Ô´ø)" {
 	}
 	item "PortTran" {
 	}
 }
-menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
-		item "æŸ¥çœ‹æœ¬æœºIP(å†…å¤–ç½‘)" {
+menu "±¾»úÐÅÏ¢ÊÕ¼¯" {
+		item "²é¿´±¾»úIP(ÄÚÍâÍø)" {
 		$bid = $1;
 		$dialog = dialog("Ladon GetIP", %(tar => "",moudle => "GetIP",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "GetIP");
@@ -975,7 +980,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "å½“å‰ç”¨æˆ·ã€ç‰¹æƒä¿¡æ¯" {
+		item "µ±Ç°ÓÃ»§¡¢ÌØÈ¨ÐÅÏ¢" {
 		$bid = $1;
 		$dialog = dialog("Ladon Whoami", %(tar => "",moudle => "Whoami",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "GetInfo");
@@ -986,10 +991,10 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "GUIDã€CPUIDã€DiskID" {
+		item "GUID¡¢CPUID¡¢DiskID" {
 		$bid = $1;
 		$dialog = dialog("Ladon GetID", %(tar => "",moudle => "GetID",clrver => "35",bid => $bid), &GetInfo);
-		dialog_description($dialog, "HostNameã€GUIDã€CPUIDã€DISKIDã€MAC");
+		dialog_description($dialog, "HostName¡¢GUID¡¢CPUID¡¢DISKID¡¢MAC");
 		#drow_text($dialog, "tar",  "Target:");
 		drow_combobox($dialog, "moudle", "Moudle:", @("GetID"));
 		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
@@ -997,7 +1002,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "åŸºç¡€ä¿¡æ¯(ä»…cmdèŽ·å–)" {
+		item "»ù´¡ÐÅÏ¢(½öcmd»ñÈ¡)" {
 		$bid = $1;
 		$dialog = dialog("Ladon GetInfo", %(tar => "",moudle => "GetInfo",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "GetInfo");
@@ -1008,7 +1013,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "åŸºç¡€ä¿¡æ¯(å«wmièŽ·å–)" {
+		item "»ù´¡ÐÅÏ¢(º¬wmi»ñÈ¡)" {
 		$bid = $1;
 		$dialog = dialog("Ladon GetInfo2", %(tar => "",moudle => "GetInfo2",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "GetInfo2");
@@ -1019,7 +1024,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "èŽ·å–å‘½ä»¤è¡Œå‚æ•°" {
+		item "»ñÈ¡ÃüÁîÐÐ²ÎÊý" {
 		$bid = $1;
 		$dialog = dialog("Ladon CmdLine", %(tar => "",moudle => "CmdLine",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "CmdLine");
@@ -1030,7 +1035,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "èŽ·å–è¿›ç¨‹è¯¦ç»†ä¿¡æ¯" {
+		item "»ñÈ¡½ø³ÌÏêÏ¸ÐÅÏ¢" {
 		$bid = $1;
 		$dialog = dialog("Ladon Tasklist", %(tar => "",moudle => "Tasklist",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "Tasklist");
@@ -1041,7 +1046,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹IEä»£ç†ä¿¡æ¯" {
+		item "²é¿´IE´úÀíÐÅÏ¢" {
 		$bid = $1;
 		$dialog = dialog("Ladon QueryProxy", %(tar => "",moudle => "QueryProxy",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "QueryProxy");
@@ -1052,7 +1057,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹æœ¬æœºå‘½åç®¡é“" {
+		item "²é¿´±¾»úÃüÃû¹ÜµÀ" {
 		$bid = $1;
 		$dialog = dialog("Ladon GetPipe", %(tar => "",moudle => "GetPipe",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "GetPipe");
@@ -1063,7 +1068,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹3389è¿œç¨‹è¿žæŽ¥" {
+		item "²é¿´3389Ô¶³ÌÁ¬½Ó" {
 		$bid = $1;
 		$dialog = dialog("Ladon RdpLog", %(tar => "",moudle => "RdpLog",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "RdpLog");
@@ -1074,7 +1079,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹USBä½¿ç”¨è®°å½•" {
+		item "²é¿´USBÊ¹ÓÃ¼ÇÂ¼" {
 		$bid = $1;
 		$dialog = dialog("Ladon Usblog", %(tar => "",moudle => "Usblog",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "Usblog");
@@ -1085,7 +1090,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹ç®¡ç†å‘˜ç»„ç”¨æˆ·" {
+		item "²é¿´¹ÜÀíÔ±×éÓÃ»§" {
 		$bid = $1;
 		$dialog = dialog("Ladon QueryAdmin", %(tar => "",moudle => "QueryAdmin",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "QueryAdmin");
@@ -1096,7 +1101,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹æœ€è¿‘è®¿é—®æ–‡ä»¶" {
+		item "²é¿´×î½ü·ÃÎÊÎÄ¼þ" {
 		$bid = $1;
 		$dialog = dialog("Ladon recent", %(tar => "",moudle => "recent",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "recent");
@@ -1107,7 +1112,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹å®‰è£….NETç‰ˆæœ¬" {
+		item "²é¿´°²×°.NET°æ±¾" {
 		$bid = $1;
 		$dialog = dialog("Ladon NetVer", %(tar => "",moudle => "NetVer",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "NetVer");
@@ -1118,7 +1123,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹PowerShellç‰ˆæœ¬" {
+		item "²é¿´PowerShell°æ±¾" {
 		$bid = $1;
 		$dialog = dialog("Ladon PsVer", %(tar => "",moudle => "PsVer",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "PsVer");
@@ -1129,7 +1134,7 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		dbutton_action($dialog, "Start");
 		dialog_show($dialog);
 		}
-		item "æŸ¥çœ‹å·²å®‰è£…ç¨‹åºç‰ˆæœ¬" {
+		item "²é¿´ÒÑ°²×°³ÌÐò°æ±¾" {
 		$bid = $1;
 		$dialog = dialog("Ladon AllVer", %(tar => "",moudle => "AllVer",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "AllVer");
@@ -1142,8 +1147,8 @@ menu "æœ¬æœºä¿¡æ¯æ”¶é›†" {
 		}
 }
 
-menu "æœ¬æœºå¯†ç è¯»å–" {
-		item "IISç«™ç‚¹å¯†ç " {
+menu "±¾»úÃÜÂë¶ÁÈ¡" {
+		item "IISÕ¾µãÃÜÂë" {
 		$bid = $1;
 		$dialog = dialog("Ladon IisPwd", %(tar => "",moudle => "IisPwd",clrver => "35",bid => $bid), &GetInfo);
 		dialog_description($dialog, "IisPwd");
@@ -1157,7 +1162,7 @@ menu "æœ¬æœºå¯†ç è¯»å–" {
 		item "CVE-2021-36934" {
 		$bid = $1;
 		$dialog = dialog("Ladon CVE-2021-36934", %(tar => "",moudle => "CVE-2021-36934",clrver => "35",bid => $bid), &GetInfo);
-		dialog_description($dialog, "Get Vpn passwordã€Ntlm-Hashã€DPAPI-KEY");
+		dialog_description($dialog, "Get Vpn password¡¢Ntlm-Hash¡¢DPAPI-KEY");
 		#drow_text($dialog, "tar",  "Target:");
 		drow_combobox($dialog, "moudle", "Moudle:", @("CVE-2021-36934"));
 		#drow_combobox($dialog, "clrver", "Version", @("35", "40"));
@@ -1170,7 +1175,7 @@ menu "æœ¬æœºå¯†ç è¯»å–" {
 }
 
 separator();
-menu "MSF/NCè”åŠ¨" {
+menu "MSF/NCÁª¶¯" {
 item "Shell_bind_tcp" {
 	if (-exists script_resource("K8moudle\\shell\\Invoke-Shellcode.ps1")) {
 		local('$bid');
@@ -1224,8 +1229,8 @@ item "Shell_reverse_dns" {
 }
 }
 separator();
-menu "å…¶å®ƒåŠŸèƒ½" {
-	item "ç½‘ç«™HTMLæºç æŸ¥çœ‹" {
+menu "ÆäËü¹¦ÄÜ" {
+	item "ÍøÕ¾HTMLÔ´Âë²é¿´" {
 	$bid = $1;
 	$dialog = dialog("Ladon GetHtml", %(tar => "",moudle => "GetHtml",clrver => "35",bid => $bid), &LoadMoudle2);
 	dialog_description($dialog, "Target: url");
