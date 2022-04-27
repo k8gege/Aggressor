@@ -2,12 +2,14 @@
 ![](https://k8gege.github.io/k8img/Ladon/Dragon.jpg)
 
 [![Author](https://img.shields.io/badge/Author-k8gege-blueviolet)](https://github.com/k8gege) 
-[![Ladon](https://img.shields.io/badge/Ladon-9.0-yellowgreen)](https://github.com/k8gege/Ladon) 
-[![Bin](https://img.shields.io/badge/Ladon-Bin-ff69b4)](https://github.com/k8gege/Ladon/releases) 
-[![GitHub issues](https://img.shields.io/github/issues/k8gege/Ladon)](https://github.com/k8gege/Ladon/issues) 
-[![Github Stars](https://img.shields.io/github/stars/k8gege/Ladon)](https://github.com/k8gege/Ladon) 
-[![GitHub forks](https://img.shields.io/github/forks/k8gege/Ladon)](https://github.com/k8gege/Ladon)
-[![GitHub license](https://img.shields.io/github/license/k8gege/Ladon)](https://github.com/k8gege/Ladon)
+[![Ladon](https://img.shields.io/badge/Aggressor-3.9-yellowgreen)](https://github.com/k8gege/Aggressor) 
+[![Bin](https://img.shields.io/badge/Aggressor-Bin-ff69b4)](https://github.com/k8gege/Aggressor/releases) 
+[![GitHub issues](https://img.shields.io/github/issues/k8gege/Aggressor)](https://github.com/k8gege/Aggressor/issues) 
+[![Github Stars](https://img.shields.io/github/stars/k8gege/Aggressor)](https://github.com/k8gege/Aggressor) 
+[![GitHub forks](https://img.shields.io/github/forks/k8gege/Aggressor)](https://github.com/k8gege/Aggressor)
+[![GitHub license](https://img.shields.io/github/license/k8gege/Aggressor)](https://github.com/k8gege/Aggressor)
+[![Downloads](https://img.shields.io/github/downloads/k8gege/Aggressor/total?label=Release%20Download)](https://github.com/k8gege/Aggressor/releases/latest)
+
 
 ### Ladon For Cobalt Strike
 <img src=https://k8gege.github.io/k8img/Ladon/CS_Ladon.gif></img>
