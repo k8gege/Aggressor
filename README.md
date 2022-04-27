@@ -2,7 +2,7 @@
 ![](https://k8gege.github.io/k8img/Ladon/Dragon.jpg)
 
 [![Author](https://img.shields.io/badge/Author-k8gege-blueviolet)](https://github.com/k8gege) 
-[![Ladon](https://img.shields.io/badge/Aggressor-3.9-yellowgreen)](https://github.com/k8gege/Aggressor) 
+[![Ladon](https://img.shields.io/badge/Ladon-911-yellowgreen)](https://github.com/k8gege/Aggressor) 
 [![Bin](https://img.shields.io/badge/Aggressor-Bin-ff69b4)](https://github.com/k8gege/Aggressor/releases) 
 [![GitHub issues](https://img.shields.io/github/issues/k8gege/Aggressor)](https://github.com/k8gege/Aggressor/issues) 
 [![Github Stars](https://img.shields.io/github/stars/k8gege/Aggressor)](https://github.com/k8gege/Aggressor) 
