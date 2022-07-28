@@ -438,3 +438,8 @@ Ladon sc c:\123.exe auto ServerName
 <img alt="" src="http://k8gege.org/img/k8team.jpg" style="display: inline-block;width: 250px;height: 300px;" />
 </div>
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/k8gege/Aggressor.svg)](https://starchart.cc/k8gege/Aggressor)
+
+<img align='right' src="https://profile-counter.glitch.me/Aggressor/count.svg" width="200">
